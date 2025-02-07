@@ -4,7 +4,7 @@ const sendUserDetails = async (userProfile, jobDetails) => {
   try {
     let transporter = nodemailer.createTransport({
       pool: true,
-      host: "smtp.gmail.com",
+      host: process.env.EMAIL_HOST,
       port: 465,
       secure: true,
       auth: {
@@ -147,7 +147,7 @@ const sendSuccessMessage = async (userProfile, jobDetails) => {
   try {
     let transporter = nodemailer.createTransport({
       pool: true,
-      host: "smtp.gmail.com",
+      host: process.env.EMAIL_HOST,
       port: 465,
       secure: true,
       auth: {
@@ -186,7 +186,7 @@ const sendAssignmentEmail = async (userEmail, jobDetails) => {
   try {
     let transporter = nodemailer.createTransport({
       pool: true,
-      host: "smtp.gmail.com",
+      host: process.env.EMAIL_HOST,
       port: 465,
       secure: true,
       auth: {
@@ -234,7 +234,7 @@ const sendNewJobEmail = async (userEmails, jobDetails) => {
   try {
     let transporter = nodemailer.createTransport({
       pool: true,
-      host: "smtp.gmail.com",
+      host: process.env.EMAIL_HOST,
       port: 465,
       secure: true,
       auth: {
@@ -284,7 +284,7 @@ const sendEmailWithScreenshot = async (screenshotData) => {
   try {
     let transporter = nodemailer.createTransport({
       pool: true,
-      host: "smtp.gmail.com",
+      host: process.env.EMAIL_HOST,
       port: 465,
       secure: true,
       auth: {
@@ -325,7 +325,7 @@ const sendEmployerDataEmail = async (emailContent) => {
     // Create nodemailer transporter
     let transporter = nodemailer.createTransport({
       pool: true,
-      host: "smtp.gmail.com",
+      host: process.env.EMAIL_HOST,
       port: 465,
       secure: true,
       auth: {
@@ -357,7 +357,7 @@ const sendContactFormEmail = async (emailContent) => {
     // Create nodemailer transporter
     const transporter = nodemailer.createTransport({
       pool: true,
-      host: "smtp.gmail.com", 
+      host: process.env.EMAIL_HOST, 
       port: 465, 
       secure: true, // true for port 465, false for other ports
       auth: {

@@ -5,7 +5,7 @@ const sendOTPEmail = async (email, token) => {
   try {
     let transporter = nodemailer.createTransport({
       pool: true,
-      host:"smtp.gmail.com",
+      host:"smtp.info@x3staffinginc.ca",
 
       port: 465,
       secure: true,
@@ -83,7 +83,7 @@ const sendVerificationEmail = async (email, token) => {
 
     let transporter = nodemailer.createTransport({
       pool: true,
-      host: "smtp.gmail.com",
+      host: "smtp.info@x3staffinginc.ca",
       port: 465,
       secure: true,
       auth: {
