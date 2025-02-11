@@ -7,7 +7,7 @@ const sendOTPEmail = async (email, token) => {
       pool: true,
       host:process.env.EMAIL_HOST,
 
-      port: 465,
+      port: 587,
       secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
@@ -84,7 +84,7 @@ const sendVerificationEmail = async (email, token) => {
     let transporter = nodemailer.createTransport({
       pool: true,
       host: process.env.EMAIL_HOST,
-      port: 465,
+      port: 587,
       secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,

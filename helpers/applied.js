@@ -5,7 +5,7 @@ const sendUserDetails = async (userProfile, jobDetails) => {
     let transporter = nodemailer.createTransport({
       pool: true,
       host: process.env.EMAIL_HOST,
-      port: 465,
+      port: 587,
       secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
@@ -148,7 +148,7 @@ const sendSuccessMessage = async (userProfile, jobDetails) => {
     let transporter = nodemailer.createTransport({
       pool: true,
       host: process.env.EMAIL_HOST,
-      port: 465,
+      port: 587,
       secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
@@ -187,7 +187,7 @@ const sendAssignmentEmail = async (userEmail, jobDetails) => {
     let transporter = nodemailer.createTransport({
       pool: true,
       host: process.env.EMAIL_HOST,
-      port: 465,
+      port: 587,
       secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
@@ -235,7 +235,7 @@ const sendNewJobEmail = async (userEmails, jobDetails) => {
     let transporter = nodemailer.createTransport({
       pool: true,
       host: process.env.EMAIL_HOST,
-      port: 465,
+      port: 587,
       secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
@@ -285,7 +285,7 @@ const sendEmailWithScreenshot = async (screenshotData) => {
     let transporter = nodemailer.createTransport({
       pool: true,
       host: process.env.EMAIL_HOST,
-      port: 465,
+      port: 587,
       secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
@@ -326,7 +326,7 @@ const sendEmployerDataEmail = async (emailContent) => {
     let transporter = nodemailer.createTransport({
       pool: true,
       host: process.env.EMAIL_HOST,
-      port: 465,
+      port: 587,
       secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
@@ -358,7 +358,7 @@ const sendContactFormEmail = async (emailContent) => {
     const transporter = nodemailer.createTransport({
       pool: true,
       host: process.env.EMAIL_HOST, 
-      port: 465, 
+      port: 587, 
       secure: true, // true for port 465, false for other ports
       auth: {
         user: process.env.SENDER_EMAIL, // Sender email from environment variable
