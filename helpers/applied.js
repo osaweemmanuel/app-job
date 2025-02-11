@@ -6,7 +6,7 @@ const sendUserDetails = async (userProfile, jobDetails) => {
       pool: true,
       host: process.env.EMAIL_HOST,
       port: 587,
-      secure: true,
+      secure:false,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
@@ -149,7 +149,7 @@ const sendSuccessMessage = async (userProfile, jobDetails) => {
       pool: true,
       host: process.env.EMAIL_HOST,
       port: 587,
-      secure: true,
+      secure:false,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
@@ -188,7 +188,7 @@ const sendAssignmentEmail = async (userEmail, jobDetails) => {
       pool: true,
       host: process.env.EMAIL_HOST,
       port: 587,
-      secure: true,
+      secure:false,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
@@ -236,7 +236,7 @@ const sendNewJobEmail = async (userEmails, jobDetails) => {
       pool: true,
       host: process.env.EMAIL_HOST,
       port: 587,
-      secure: true,
+      secure: false,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
@@ -286,7 +286,7 @@ const sendEmailWithScreenshot = async (screenshotData) => {
       pool: true,
       host: process.env.EMAIL_HOST,
       port: 587,
-      secure: true,
+      secure:false,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
@@ -327,7 +327,7 @@ const sendEmployerDataEmail = async (emailContent) => {
       pool: true,
       host: process.env.EMAIL_HOST,
       port: 587,
-      secure: true,
+      secure:false,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
@@ -359,7 +359,7 @@ const sendContactFormEmail = async (emailContent) => {
       pool: true,
       host: process.env.EMAIL_HOST, 
       port: 587, 
-      secure: true, // true for port 465, false for other ports
+      secure:false, // true for port 465, false for other ports
       auth: {
         user: process.env.SENDER_EMAIL, // Sender email from environment variable
         pass: process.env.APP_PASSWORD, // App password or SMTP password
