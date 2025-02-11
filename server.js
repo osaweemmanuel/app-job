@@ -18,7 +18,7 @@ console.log(process.env.NODE_ENV === 'production');
 connectDB();
 
 app.use(logger);
-
+app.set('trust proxy', 1);
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
