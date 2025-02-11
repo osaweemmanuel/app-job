@@ -39,6 +39,12 @@ app.use("/jobApplied", require("./routes/abstract"));
 app.use("/upload", require("./routes/upload"));
 app.use("/contact", require("./routes/contact"));
 
+
+app.get('/',(req,res)=>{
+  res.send("The app is working, we can test the app now")
+});
+
+
 app.all("*", (req, res) => {
   res.status(404);
   if (req.accepts("html")) {
