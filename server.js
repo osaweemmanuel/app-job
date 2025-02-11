@@ -20,6 +20,7 @@ connectDB();
 app.use(logger);
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
@@ -55,21 +56,9 @@ app.all("*", (req, res) => {
     res.type("txt").send("404 Not Found");
   }
 });
-
+app.options('*', cors(corsOptions));
 app.use(errorHandler);
 
-// mongoose.connection.once("open", () => {
-//   console.log("Connected to MongoDB");
-//   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-// });
-
-// mongoose.connection.on("error", (err) => {
-//   console.log(err);
-//   logEvents(
-//     `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
-//     "mongoErrLog.log"
-//   );
-// });
 
 
 mongoose.connection.once("open", () => {
