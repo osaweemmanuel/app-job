@@ -205,7 +205,7 @@ const GoogleCallback = async (req, res) => {
     });
 
     // res.status(200).json({ success: true, message: 'Authentication successful', accessToken, user });
-    res.redirect(`${process.env.VITE_FRONTEND_URL}/userdashboard`);
+    res.redirect(`${process.env.BASE_URL}/userdashboard`);
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
