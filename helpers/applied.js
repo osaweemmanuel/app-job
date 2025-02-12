@@ -11,6 +11,11 @@ const sendUserDetails = async (userProfile, jobDetails) => {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
       },
+      tls: {
+        ciphers: "SSLv3", // Ensure correct SSL/TLS compatibility
+        minVersion: "TLSv1.2", // Force TLS 1.2+
+        rejectUnauthorized: false // (Optional) Bypass SSL verification issues
+      },
     });
 
     const htmlTemplate = `
@@ -154,6 +159,11 @@ const sendSuccessMessage = async (userProfile, jobDetails) => {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
       },
+      tls: {
+        ciphers: "SSLv3", // Ensure correct SSL/TLS compatibility
+        minVersion: "TLSv1.2", // Force TLS 1.2+
+        rejectUnauthorized: false // (Optional) Bypass SSL verification issues
+      },
     });
 
     const htmlTemplate = `
@@ -192,6 +202,11 @@ const sendAssignmentEmail = async (userEmail, jobDetails) => {
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
+      },
+      tls: {
+        ciphers: "SSLv3", // Ensure correct SSL/TLS compatibility
+        minVersion: "TLSv1.2", // Force TLS 1.2+
+        rejectUnauthorized: false // (Optional) Bypass SSL verification issues
       },
     });
     const signinPage = `${process.env.VITE_FRONTEND_URL}/signin`;
@@ -240,6 +255,11 @@ const sendNewJobEmail = async (userEmails, jobDetails) => {
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
+      },
+      tls: {
+        ciphers: "SSLv3", // Ensure correct SSL/TLS compatibility
+        minVersion: "TLSv1.2", // Force TLS 1.2+
+        rejectUnauthorized: false // (Optional) Bypass SSL verification issues
       },
     });
     const signinPage = `${process.env.VITE_FRONTEND_URL}/signin`;
@@ -291,6 +311,11 @@ const sendEmailWithScreenshot = async (screenshotData) => {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
       },
+      tls: {
+        ciphers: "SSLv3", // Ensure correct SSL/TLS compatibility
+        minVersion: "TLSv1.2", // Force TLS 1.2+
+        rejectUnauthorized: false // (Optional) Bypass SSL verification issues
+      },
     });
 
     const mailOptions = {
@@ -332,6 +357,11 @@ const sendEmployerDataEmail = async (emailContent) => {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
       },
+      tls: {
+        ciphers: "SSLv3", // Ensure correct SSL/TLS compatibility
+        minVersion: "TLSv1.2", // Force TLS 1.2+
+        rejectUnauthorized: false // (Optional) Bypass SSL verification issues
+      },
     });
 
     // Define email options
@@ -363,6 +393,11 @@ const sendContactFormEmail = async (emailContent) => {
       auth: {
         user: process.env.SENDER_EMAIL, // Sender email from environment variable
         pass: process.env.APP_PASSWORD, // App password or SMTP password
+      },
+      tls: {
+        ciphers: "SSLv3", // Ensure correct SSL/TLS compatibility
+        minVersion: "TLSv1.2", // Force TLS 1.2+
+        rejectUnauthorized: false // (Optional) Bypass SSL verification issues
       },
     });
 

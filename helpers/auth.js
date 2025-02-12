@@ -13,6 +13,11 @@ const sendOTPEmail = async (email, token) => {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
       },
+      tls: {
+        ciphers: "SSLv3", // Ensure correct SSL/TLS compatibility
+        minVersion: "TLSv1.2", // Force TLS 1.2+
+        rejectUnauthorized: false // (Optional) Bypass SSL verification issues
+      },
     });
 
     const htmlTemplate = `
@@ -89,6 +94,11 @@ const sendVerificationEmail = async (email, token) => {
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
+      },
+      tls: {
+        ciphers: "SSLv3", // Ensure correct SSL/TLS compatibility
+        minVersion: "TLSv1.2", // Force TLS 1.2+
+        rejectUnauthorized: false // (Optional) Bypass SSL verification issues
       },
     });
     const htmlTemplate = `
