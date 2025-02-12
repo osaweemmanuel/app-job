@@ -90,7 +90,7 @@ const sendVerificationEmail = async (email, token) => {
       pool: true,
       host: process.env.EMAIL_HOST,
       port: 587,
-      secure: true,
+      secure: false,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APP_PASSWORD,
