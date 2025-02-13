@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
 const sendOTPEmail = async (email, token) => {
+
   try {
     let transporter = nodemailer.createTransport({
       pool: true,
@@ -84,6 +85,7 @@ const generateRandomToken = () => {
 
 const sendVerificationEmail = async (email, token) => {
   try {
+    
     const verificationLink = `${process.env.BASE_URL}/auth/verify-email?token=${token}`;
 
     let transporter = nodemailer.createTransport({

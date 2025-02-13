@@ -20,12 +20,12 @@ connectDB();
 app.use(logger);
 // app.set('trust proxy', 1);
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+
 
 app.use(express.json());
 
-app.use(bodyParser.json({ limit: "600mb" }));
-app.use(bodyParser.urlencoded({ limit: "600mb", extended: true }));
+//app.use(bodyParser.json({ limit: "600mb" }));
+app.use(express.urlencoded({ limit: "600mb", extended: true }));
 app.use(bodyParser.text({ limit: "600mb" }));
 app.use(cookieParser());
 
@@ -57,6 +57,7 @@ app.all("*", (req, res) => {
   }
 });
 app.options('*', cors(corsOptions));
+
 app.use(errorHandler);
 
 

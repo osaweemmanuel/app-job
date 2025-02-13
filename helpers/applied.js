@@ -194,6 +194,7 @@ const sendSuccessMessage = async (userProfile, jobDetails) => {
 };
 const sendAssignmentEmail = async (userEmail, jobDetails) => {
   try {
+   
     let transporter = nodemailer.createTransport({
       pool: true,
       host: process.env.EMAIL_HOST,

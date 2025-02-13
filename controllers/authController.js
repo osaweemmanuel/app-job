@@ -225,30 +225,77 @@ const readHtmlFile = (filePath) => {
   });
 };
 
+
+
 // @desc Verify Email using LINK
 // @route GET /auth/verifyemail
+// const verifyEmail = async (req, res) => {
+//   const { token } = req.query;
+
+//   try {
+//     // Find the token in the database
+//     const tokenDoc = await Token.findOne({ token, purpose: "email" }).exec();
+
+//     if (!tokenDoc) {
+//       console.log("Invalid or expired verification token");
+//       return res
+//         .status(400)
+//         .json({ message: "Invalid or expired verification token" });
+//     }
+
+//     // Check if the token has expired
+//     if (tokenDoc.expiresAt <= new Date()) {
+//       // Token has expired
+//       await tokenDoc.deleteOne(); // Remove the expired token
+//       console.log("Verification token has expired");
+//       return res
+//         .status(400)
+//         .json({ message: "Verification token has expired" });
+//     }
+
+//     // Update the user to 'verified: true'
+//     const updatedUser = await User.findOneAndUpdate(
+//       { email: tokenDoc.email },
+//       { verified: true },
+//       { new: true }
+//     ).exec();
+
+//     // Remove the token as it's no longer needed
+//     await tokenDoc.deleteOne();
+
+//     // Read the HTML file
+//     const htmlFilePath = path.join(__dirname, "../views/VerifiedEmail.html");
+//     const htmlContent = await readHtmlFile(htmlFilePath);
+
+//     // Replace placeholders in the HTML content
+//     const finalHtml = htmlContent.replace("{USER_EMAIL}", updatedUser.email);
+
+//     // Send the HTML file as a response
+//     res.send(finalHtml);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Internal Server Error", success: false });
+//   }
+// };
+
+
 const verifyEmail = async (req, res) => {
   const { token } = req.query;
 
   try {
     // Find the token in the database
     const tokenDoc = await Token.findOne({ token, purpose: "email" }).exec();
-
+ console.log(tokenDoc,"trying to get email");
     if (!tokenDoc) {
       console.log("Invalid or expired verification token");
-      return res
-        .status(400)
-        .json({ message: "Invalid or expired verification token" });
+      return res.status(400).json({ message: "Invalid or expired verification token" });
     }
 
     // Check if the token has expired
-    if (tokenDoc.expiresAt <= new Date()) {
-      // Token has expired
+    if (tokenDoc.expiresAt < new Date()) {
       await tokenDoc.deleteOne(); // Remove the expired token
       console.log("Verification token has expired");
-      return res
-        .status(400)
-        .json({ message: "Verification token has expired" });
+      return res.status(400).json({ message: "Verification token has expired" });
     }
 
     // Update the user to 'verified: true'
@@ -257,12 +304,16 @@ const verifyEmail = async (req, res) => {
       { verified: true },
       { new: true }
     ).exec();
-
+    console.log("User found before update:", updatedUser);
+    if (!updatedUser) {
+      console.log("User update failed or user not found");
+      return res.status(400).json({ message: "User update failed" });
+    }
     // Remove the token as it's no longer needed
     await tokenDoc.deleteOne();
 
     // Read the HTML file
-    const htmlFilePath = path.join(__dirname, "../views/VerifiedEmail.html");
+    const htmlFilePath = path.resolve(__dirname, "../views/VerifiedEmail.html");
     const htmlContent = await readHtmlFile(htmlFilePath);
 
     // Replace placeholders in the HTML content
