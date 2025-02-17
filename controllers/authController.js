@@ -15,7 +15,7 @@ const {
 require("dotenv").config();
 
 // Google OAuth Config
-const client = new OAuth2Client(
+const oauth2Client = new OAuth2Client(
   process.env.GO_CLIENT_ID,
   process.env.GO_CLIENT_SECRET,
   process.env.GO_REDIRECT_URI
@@ -132,50 +132,56 @@ const login = async (req, res) => {
   res.json({ accessToken });
 };
 
-// @desc Login/Signup using Google
-// @route GET /auth/google
-// @access Public
+
+
+
+
+
 const GoogleHandler = (req, res) => {
-  // Redirect to Google OAuth endpoint
-  const redirectUrl = `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${process.env.GO_CLIENT_ID}&redirect_uri=${process.env.GO_REDIRECT_URI}&scope=email%20profile&state=some_state`;
+  // Generate the Google OAuth URL for authorization
+  const redirectUrl = oauth2Client.generateAuthUrl({
+    access_type: "offline",  // To get refresh token
+    prompt: "consent",      // Forces consent screen on each login
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.email",   // Access user email
+      "https://www.googleapis.com/auth/userinfo.profile", // Access user profile
+    ],
+  });
+
+  // Redirect to Google for OAuth authentication
   res.redirect(redirectUrl);
 };
 
-// @desc Callback for Google OAuth
-// @route GET /auth/google/callback
-// @access Public
+
+
 const GoogleCallback = async (req, res) => {
-  // const { tokenId } = req.body;
-
   try {
-    const { code } = req.query;
-    // console.log(process.env.GOOGLE_CLIENT_ID)
-    // console.log(process.env.GOOGLE_CLIENT_SECRET)
-    // console.log(process.env.GOOGLE_REDIRECT_URI)
-    // Exchange code for access token
-    const { tokens } = await client.getToken(code);
-    // console.log(tokens)
-    // Get user info using the access token
-    const { data } = await axios.get(
-      "https://www.googleapis.com/oauth2/v3/userinfo",
-      {
-        headers: { Authorization: `Bearer ${tokens.access_token}` },
-      }
-    );
+    const { code } = req.query; // Get the code from the query params
+    console.log("Received code:", code);
 
-    // Check if the user is already registered in the database
+    // Exchange the code for an access token
+    const { tokens } = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(tokens);
+
+    // Fetch user info from Google using the access token
+    const { data } = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+      headers: { Authorization: `Bearer ${tokens.access_token}` },
+    });
+
+    // Check if user exists in DB by email
     let user = await User.findOne({ email: data.email }).exec();
 
     if (!user) {
-      // If not registered, create a new user without a password
+      // If user doesn't exist, create a new user with Google data
       user = await User.create({
         username: data.name,
         email: data.email,
-        verified: true, // Assuming Google provides verified emails
-        isGoogleUser: true, // Add a flag to indicate Google user
+        verified: true, // Assume email is verified
+        isGoogleUser: true, // Flag to identify Google login
       });
     }
 
+    // Generate access and refresh tokens for session management
     const accessToken = jwt.sign(
       {
         UserInfo: {
@@ -187,30 +193,38 @@ const GoogleCallback = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "15m" } // Access token expires in 15 minutes
     );
 
     const refreshToken = jwt.sign(
       { username: user.username },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "7d" } // Refresh token expires in 7 days
     );
 
-    // Create secure cookie with refresh token
+    // Set the refresh token in a secure cookie
     res.cookie("jwt", refreshToken, {
-      httpOnly: true, //accessible only by web server
-      secure: true, //https
-      sameSite: "None", //cross-site cookie
-      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+      httpOnly: true, // Secure the cookie, can't be accessed from JavaScript
+      secure: process.env.NODE_ENV === "production", // Only use secure cookies in production (over HTTPS)
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Cross-site cookie configuration
+      maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expiration matches refresh token
     });
 
-    // res.status(200).json({ success: true, message: 'Authentication successful', accessToken, user });
-    res.redirect(`${process.env.BASE_URL}/userdashboard`);
+    // Redirect the user to the dashboard after successful login
+    res.redirect(`${process.env.LIVE_URL}/userdashboard`);
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
+
+
+
+
+
+
+
 
 // Function to read the HTML file
 const readHtmlFile = (filePath) => {
